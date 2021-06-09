@@ -1,6 +1,5 @@
 import openpyxl as xl
 from openpyxl.chart import BarChart, Reference
-from openpyxl.xml.constants import MAX_COLUMN
 
 
 def process_workbook(filename):
