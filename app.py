@@ -1,25 +1,33 @@
 import openpyxl as xl
+from openpyxl.chart import BarChart, Reference
+from openpyxl.xml.constants import MAX_COLUMN
 
-wb = xl.load_workbook("transactions.xlsx")
-sheet = wb["Sheet1"]
-col_c = sheet["c"]  # cell = sheet["c1"] will give just a cell,
 
-corrected_price_lst = ["corrected_price"]
+def process_workbook(filename):
 
-for row in col_c:
-    if isinstance(row.value, float):
-        corrected_price = row.value * 0.9
-        corrected_price_lst.append(corrected_price)
+    wb = xl.load_workbook(filename)
+    sheet = wb["Sheet1"]
+    col_c = sheet["c"]
 
-print(corrected_price_lst)
+    corrected_price_lst = ["corrected_price"]
 
-col_d = sheet["d"]
+    for row in col_c:
+        if isinstance(row.value, float):
+            corrected_price = row.value * 0.9
+            corrected_price_lst.append(corrected_price)
 
-for value, row in zip(corrected_price_lst, col_d):
-    row.value = value
+    col_d = sheet["d"]
 
-print("=" * 10)
-for row in col_d:
-    print(row.value)
+    for value, row in zip(corrected_price_lst, col_d):
+        row.value = value
 
-wb.save("transactions2.xlsx")
+    values = Reference(sheet, min_row=2, max_row=sheet.max_row, min_col=4, max_col=4)
+
+    chart = BarChart()
+    chart.add_data(values)
+    sheet.add_chart(chart, "e2")
+
+    wb.save(filename)
+
+
+process_workbook("transactions.xlsx")
