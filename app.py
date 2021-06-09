@@ -29,4 +29,5 @@ def process_workbook(filename):
     wb.save(filename)
 
 
-process_workbook("transactions.xlsx")
+if __name__ == "__main__":
+    process_workbook("transactions.xlsx")
