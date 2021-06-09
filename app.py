@@ -1,8 +1,7 @@
-import requests
+import openpyxl as xl
 
-r = requests.get("https://en.wikipedia.org/wiki/Period_(algebraic_geometry)")
-print(r.status_code)
-print("nothing")
-print("please work")
-print("please work this time too")
-print("local change I made")
+wb = xl.load_workbook("transactions.xlsx")
+sheet = wb["Sheet1"]
+cell = sheet["a"]
+for item in cell:
+    print(item)
